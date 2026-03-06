@@ -317,20 +317,56 @@
   <h2 class="section-title fade-in" style="margin-bottom:2.5rem;">Everything in <em style="font-style:italic;color:var(--gold)">one place.</em></h2>
 
   <div class="dashboard-mock fade-in">
+    <!-- Top bar -->
     <div class="mock-topbar">
       <div class="mock-dots"><div class="mock-dot"></div><div class="mock-dot"></div><div class="mock-dot"></div></div>
-      <div class="mock-url">app.briefdd.co — Dashboard</div>
+      <div class="mock-url">app.briefdd.com — Dashboard</div>
     </div>
-    <div class="mock-body">
+
+    <!-- Inner ticker -->
+    <div style="background:#c9a84c;overflow:hidden;padding:0.35rem 0;white-space:nowrap;">
+      <div style="display:inline-block;animation:scrollLeft 20s linear infinite;">
+        <span style="font-family:'DM Mono',monospace;font-size:0.65rem;color:#0a0a0a;font-weight:500;margin-right:2.5rem;">S&P 500 6,839 +0.13%</span>
+        <span style="font-family:'DM Mono',monospace;font-size:0.65rem;color:#0a0a0a;font-weight:500;margin-right:2.5rem;">NASDAQ 22,748 −0.26%</span>
+        <span style="font-family:'DM Mono',monospace;font-size:0.65rem;color:#0a0a0a;font-weight:500;margin-right:2.5rem;">DOW 47,954 −1.61%</span>
+        <span style="font-family:'DM Mono',monospace;font-size:0.65rem;color:#0a0a0a;font-weight:500;margin-right:2.5rem;">GOLD $3,102 +0.5%</span>
+        <span style="font-family:'DM Mono',monospace;font-size:0.65rem;color:#0a0a0a;font-weight:500;margin-right:2.5rem;">OIL $78.4 +1.2%</span>
+        <span style="font-family:'DM Mono',monospace;font-size:0.65rem;color:#0a0a0a;font-weight:500;margin-right:2.5rem;">DXY 99.03 +0.3%</span>
+        <span style="font-family:'DM Mono',monospace;font-size:0.65rem;color:#0a0a0a;font-weight:500;margin-right:2.5rem;">VIX 18.4</span>
+        <span style="font-family:'DM Mono',monospace;font-size:0.65rem;color:#0a0a0a;font-weight:500;margin-right:2.5rem;">10Y 4.31%</span>
+        <span style="font-family:'DM Mono',monospace;font-size:0.65rem;color:#0a0a0a;font-weight:500;margin-right:2.5rem;">2Y 4.89%</span>
+        <span style="font-family:'DM Mono',monospace;font-size:0.65rem;color:#0a0a0a;font-weight:500;margin-right:2.5rem;">S&P 500 6,839 +0.13%</span>
+        <span style="font-family:'DM Mono',monospace;font-size:0.65rem;color:#0a0a0a;font-weight:500;margin-right:2.5rem;">NASDAQ 22,748 −0.26%</span>
+        <span style="font-family:'DM Mono',monospace;font-size:0.65rem;color:#0a0a0a;font-weight:500;margin-right:2.5rem;">DOW 47,954 −1.61%</span>
+        <span style="font-family:'DM Mono',monospace;font-size:0.65rem;color:#0a0a0a;font-weight:500;margin-right:2.5rem;">GOLD $3,102 +0.5%</span>
+        <span style="font-family:'DM Mono',monospace;font-size:0.65rem;color:#0a0a0a;font-weight:500;margin-right:2.5rem;">OIL $78.4 +1.2%</span>
+        <span style="font-family:'DM Mono',monospace;font-size:0.65rem;color:#0a0a0a;font-weight:500;margin-right:2.5rem;">DXY 99.03 +0.3%</span>
+        <span style="font-family:'DM Mono',monospace;font-size:0.65rem;color:#0a0a0a;font-weight:500;margin-right:2.5rem;">VIX 18.4</span>
+        <span style="font-family:'DM Mono',monospace;font-size:0.65rem;color:#0a0a0a;font-weight:500;margin-right:2.5rem;">10Y 4.31%</span>
+        <span style="font-family:'DM Mono',monospace;font-size:0.65rem;color:#0a0a0a;font-weight:500;margin-right:2.5rem;">2Y 4.89%</span>
+      </div>
+    </div>
+
+    <div class="mock-body" style="grid-template-columns:180px 1fr;min-height:480px;">
+      <!-- Sidebar -->
       <div class="mock-sidebar">
+        <div style="font-family:'DM Mono',monospace;font-size:0.55rem;letter-spacing:0.15em;color:#6b6456;text-transform:uppercase;padding:0.5rem 0.75rem;margin-bottom:0.25rem;">Navigation</div>
         <div class="mock-nav-item active">📊 &nbsp;Dashboard</div>
-        <div class="mock-nav-item">👁 &nbsp;Insider Trades</div>
+        <div class="mock-nav-item">🏦 &nbsp;Fed Tracker</div>
         <div class="mock-nav-item">🔍 &nbsp;Stock Search</div>
         <div class="mock-nav-item">📈 &nbsp;Macro Signals</div>
         <div class="mock-nav-item">📰 &nbsp;News Feed</div>
+        <div style="margin-top:auto;padding:0.75rem;border-top:1px solid rgba(255,255,255,0.04);margin-top:1rem;">
+          <div style="font-size:0.65rem;color:#6b6456;font-family:'DM Mono',monospace;">FOUNDER MEMBER</div>
+          <div style="font-size:0.7rem;color:var(--gold);font-family:'DM Mono',monospace;margin-top:0.2rem;">$10/mo locked ✦</div>
+        </div>
       </div>
-      <div class="mock-content">
-        <div>
+
+      <!-- Main content -->
+      <div class="mock-content" style="display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto auto auto;gap:0.75rem;padding:1rem;">
+
+        <!-- Insider buys -->
+        <div style="grid-column:1/2;">
           <div class="mock-section-label">Recent Insider Buys</div>
           <div class="mock-card">
             <div class="mock-row"><div><div class="mock-ticker">NVDA</div><div class="mock-who">Jensen Huang — CEO</div></div><div class="mock-amt">+$4.2M</div></div>
@@ -338,11 +374,92 @@
             <div class="mock-row"><div><div class="mock-ticker">JPM</div><div class="mock-who">Jamie Dimon — CEO</div></div><div class="mock-amt">+$2.1M</div></div>
           </div>
         </div>
-        <div class="mock-gauges">
-          <div class="mock-gauge"><div class="mock-gauge-val" style="color:var(--red)">42</div><div class="mock-gauge-lbl">Fear & Greed</div></div>
-          <div class="mock-gauge"><div class="mock-gauge-val" style="color:var(--red)">−0.58%</div><div class="mock-gauge-lbl">Yield Spread</div></div>
-          <div class="mock-gauge"><div class="mock-gauge-val" style="color:var(--gold)">18.4</div><div class="mock-gauge-lbl">VIX</div></div>
+
+        <!-- Fed tracker -->
+        <div style="grid-column:2/3;">
+          <div class="mock-section-label">Fed Rate Tracker</div>
+          <div class="mock-card" style="height:calc(100% - 1.5rem);">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.6rem;">
+              <div style="font-family:'DM Mono',monospace;font-size:0.7rem;color:rgba(245,240,232,0.5);">Current Rate</div>
+              <div style="font-family:'DM Mono',monospace;font-size:1.1rem;color:var(--gold);font-weight:500;">5.25%</div>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem;">
+              <div style="font-family:'DM Mono',monospace;font-size:0.7rem;color:rgba(245,240,232,0.5);">Next FOMC</div>
+              <div style="font-family:'DM Mono',monospace;font-size:0.72rem;color:var(--green);">May 7 — 34 days</div>
+            </div>
+            <div style="font-family:'DM Mono',monospace;font-size:0.6rem;color:#6b6456;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.4rem;">Recent Decisions</div>
+            <div style="display:flex;flex-direction:column;gap:0.3rem;">
+              <div style="display:flex;justify-content:space-between;font-size:0.68rem;"><span style="color:rgba(245,240,232,0.4);">Mar 2024</span><span style="color:rgba(245,240,232,0.6);">Hold</span><span style="color:var(--gold);">5.25%</span></div>
+              <div style="display:flex;justify-content:space-between;font-size:0.68rem;"><span style="color:rgba(245,240,232,0.4);">Jan 2024</span><span style="color:rgba(245,240,232,0.6);">Hold</span><span style="color:var(--gold);">5.25%</span></div>
+              <div style="display:flex;justify-content:space-between;font-size:0.68rem;"><span style="color:rgba(245,240,232,0.4);">Dec 2023</span><span style="color:var(--red);">−0.25%</span><span style="color:var(--gold);">5.25%</span></div>
+            </div>
+          </div>
         </div>
+
+        <!-- Gauges -->
+        <div style="grid-column:1/2;">
+          <div class="mock-section-label">Market Signals</div>
+          <div class="mock-gauges">
+            <div class="mock-gauge"><div class="mock-gauge-val" style="color:var(--red)">42</div><div class="mock-gauge-lbl">Fear & Greed</div></div>
+            <div class="mock-gauge"><div class="mock-gauge-val" style="color:var(--red)">−0.58%</div><div class="mock-gauge-lbl">Yield Spread</div></div>
+            <div class="mock-gauge"><div class="mock-gauge-val" style="color:var(--gold)">18.4</div><div class="mock-gauge-lbl">VIX</div></div>
+          </div>
+        </div>
+
+        <!-- Yield curve -->
+        <div style="grid-column:2/3;">
+          <div class="mock-section-label">Yield Curve</div>
+          <div class="mock-card" style="padding:0.75rem 1rem;">
+            <svg viewBox="0 0 200 60" style="width:100%;height:55px;">
+              <!-- Inverted yield curve -->
+              <polyline points="0,10 30,18 60,28 90,35 120,40 150,44 200,48"
+                fill="none" stroke="rgba(248,113,113,0.8)" stroke-width="1.5" stroke-linecap="round"/>
+              <!-- Normal reference line -->
+              <polyline points="0,48 30,42 60,35 90,28 120,20 150,14 200,10"
+                fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1" stroke-dasharray="3,3"/>
+              <!-- X axis labels -->
+              <text x="0" y="58" font-family="monospace" font-size="5" fill="rgba(245,240,232,0.3)">1M</text>
+              <text x="27" y="58" font-family="monospace" font-size="5" fill="rgba(245,240,232,0.3)">3M</text>
+              <text x="57" y="58" font-family="monospace" font-size="5" fill="rgba(245,240,232,0.3)">6M</text>
+              <text x="87" y="58" font-family="monospace" font-size="5" fill="rgba(245,240,232,0.3)">1Y</text>
+              <text x="117" y="58" font-family="monospace" font-size="5" fill="rgba(245,240,232,0.3)">5Y</text>
+              <text x="147" y="58" font-family="monospace" font-size="5" fill="rgba(245,240,232,0.3)">10Y</text>
+              <text x="188" y="58" font-family="monospace" font-size="5" fill="rgba(245,240,232,0.3)">30Y</text>
+            </svg>
+            <div style="display:flex;justify-content:space-between;margin-top:0.25rem;">
+              <span style="font-family:'DM Mono',monospace;font-size:0.6rem;color:var(--red);">▼ Inverted</span>
+              <span style="font-family:'DM Mono',monospace;font-size:0.6rem;color:rgba(245,240,232,0.3);">2Y−10Y: −0.58%</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Market hours -->
+        <div style="grid-column:1/-1;">
+          <div class="mock-section-label">Market Hours</div>
+          <div style="display:flex;gap:0.6rem;">
+            <div class="mock-card" style="flex:1;text-align:center;padding:0.6rem;">
+              <div style="font-size:0.6rem;color:#6b6456;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:0.1em;">New York</div>
+              <div style="font-size:0.78rem;color:var(--green);font-family:'DM Mono',monospace;margin-top:0.2rem;">● OPEN</div>
+              <div style="font-size:0.62rem;color:rgba(245,240,232,0.3);font-family:'DM Mono',monospace;">9:30–16:00 EST</div>
+            </div>
+            <div class="mock-card" style="flex:1;text-align:center;padding:0.6rem;">
+              <div style="font-size:0.6rem;color:#6b6456;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:0.1em;">London</div>
+              <div style="font-size:0.78rem;color:var(--red);font-family:'DM Mono',monospace;margin-top:0.2rem;">● CLOSED</div>
+              <div style="font-size:0.62rem;color:rgba(245,240,232,0.3);font-family:'DM Mono',monospace;">8:00–16:30 GMT</div>
+            </div>
+            <div class="mock-card" style="flex:1;text-align:center;padding:0.6rem;">
+              <div style="font-size:0.6rem;color:#6b6456;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:0.1em;">Tokyo</div>
+              <div style="font-size:0.78rem;color:var(--red);font-family:'DM Mono',monospace;margin-top:0.2rem;">● CLOSED</div>
+              <div style="font-size:0.62rem;color:rgba(245,240,232,0.3);font-family:'DM Mono',monospace;">9:00–15:30 JST</div>
+            </div>
+            <div class="mock-card" style="flex:1;text-align:center;padding:0.6rem;">
+              <div style="font-size:0.6rem;color:#6b6456;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:0.1em;">CME FedWatch</div>
+              <div style="font-size:0.78rem;color:var(--gold);font-family:'DM Mono',monospace;margin-top:0.2rem;">68% Hold</div>
+              <div style="font-size:0.62rem;color:rgba(245,240,232,0.3);font-family:'DM Mono',monospace;">May probability</div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
