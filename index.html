@@ -437,9 +437,8 @@
   }, { threshold: 0.08 });
   document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
-  // ── COUNTER CONFIG ──
-  // Update this number manually as real signups come in
-  const FOUNDERS_COUNT = 1;
+  // ── LIVE COUNTER FROM GOOGLE SHEETS ──
+  const SHEET_ID = '1DkCortXwMLR3HVNg3y2D75hdfWodtqriuuZTBXENTeg';
   const FOUNDERS_MAX = 200;
 
   function animateCounter(target, duration) {
@@ -457,42 +456,31 @@
     setTimeout(() => { bar.style.width = ((target / FOUNDERS_MAX) * 100) + '%'; }, 200);
   }
 
+  async function fetchSignupCount() {
+    try {
+      const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=Sheet1`;
+      const res = await fetch(url);
+      const text = await res.text();
+      const json = JSON.parse(text.substring(47).slice(0, -2));
+      // Count rows that have data (subtract header row)
+      const rows = json.table.rows.filter(r => r.c && r.c[0] && r.c[0].v);
+      return rows.length;
+    } catch (e) {
+      return 0;
+    }
+  }
+
   // Trigger counter when visible
   let counterStarted = false;
-  const counterObs = new IntersectionObserver((entries) => {
+  const counterObs = new IntersectionObserver(async (entries) => {
     if (entries[0].isIntersecting && !counterStarted) {
       counterStarted = true;
-      animateCounter(FOUNDERS_COUNT, 1600);
+      const count = await fetchSignupCount();
+      animateCounter(count, 1600);
     }
   }, { threshold: 0.3 });
   counterObs.observe(document.querySelector('.counter-block'));
 
-  // Signup handler
-  function handleSignup() {
-    const input = document.getElementById('emailInput');
-    const email = input.value.trim();
-    if (!email || !email.includes('@') || !email.includes('.')) {
-      input.style.borderColor = 'var(--red)';
-      setTimeout(() => { input.style.borderColor = ''; }, 1800);
-      return;
-    }
-
-    // ── Swap this out for your Tally embed / Mailchimp API / backend ──
-    console.log('New founder:', email);
-
-    // Optimistic counter bump
-    const newCount = FOUNDERS_COUNT + 1;
-    document.getElementById('counterNum').textContent = newCount;
-    document.getElementById('counterBar').style.width = ((newCount / FOUNDERS_MAX) * 100) + '%';
-
-    document.querySelector('.waitlist').style.display = 'none';
-    document.querySelector('.waitlist-note').style.display = 'none';
-    document.getElementById('successMsg').style.display = 'block';
-  }
-
-  document.getElementById('emailInput').addEventListener('keydown', e => {
-    if (e.key === 'Enter') handleSignup();
-  });
 </script>
 </body>
 </html>
