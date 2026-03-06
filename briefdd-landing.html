@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Briefdd — Brief Financial Due Diligence</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black: #0a0a0a;
+      --paper: #f5f0e8;
+      --gold: #c9a84c;
+      --gold-light: #e8c96a;
+      --muted: #6b6456;
+      --green: #4ade80;
+      --red: #f87171;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--black); color: var(--paper); font-family: 'DM Sans', sans-serif; overflow-x: hidden; }
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 999; opacity: 0.35;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.5rem 3rem;
+      border-bottom: 1px solid rgba(201,168,76,0.12);
+      backdrop-filter: blur(14px);
+      background: rgba(10,10,10,0.75);
+    }
+    .logo { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 900; color: var(--gold); letter-spacing: -0.02em; }
+    .logo span { color: var(--paper); }
+    .logo-tagline { font-family: 'DM Mono', monospace; font-size: 0.55rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-top: 0.15rem; }
+    .nav-cta {
+      font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--black); background: var(--gold);
+      padding: 0.55rem 1.1rem; text-decoration: none; border-radius: 2px; transition: background 0.2s;
+    }
+    .nav-cta:hover { background: var(--gold-light); }
+
+    .shimmer-line {
+      position: fixed; top: 0; left: 0; right: 0; height: 2px; z-index: 200;
+      background: linear-gradient(90deg, transparent, var(--gold), var(--gold-light), var(--gold), transparent);
+      animation: shimmer 3s ease-in-out infinite;
+    }
+    @keyframes shimmer { 0%,100%{opacity:0.3} 50%{opacity:1} }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh; display: flex; flex-direction: column;
+      justify-content: center; padding: 9rem 3rem 5rem; position: relative; overflow: hidden;
+    }
+    .hero-glow {
+      position: absolute; inset: 0; pointer-events: none;
+      background: radial-gradient(ellipse 55% 60% at 85% 45%, rgba(201,168,76,0.07) 0%, transparent 70%),
+                  radial-gradient(ellipse 35% 50% at 5% 85%, rgba(26,107,60,0.04) 0%, transparent 60%);
+    }
+
+    /* FOUNDER BADGE */
+    .founder-badge {
+      display: inline-flex; align-items: center; gap: 0.55rem;
+      background: rgba(201,168,76,0.08); border: 1px solid rgba(201,168,76,0.3);
+      padding: 0.45rem 1rem; border-radius: 2px; margin-bottom: 1.75rem; width: fit-content;
+      opacity: 0; animation: fadeUp 0.7s ease forwards 0.1s;
+    }
+    .pulse-dot {
+      width: 7px; height: 7px; border-radius: 50%; background: var(--gold); flex-shrink: 0;
+      animation: pulseDot 2s ease-in-out infinite;
+    }
+    @keyframes pulseDot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.3;transform:scale(0.7)} }
+    .founder-badge span { font-family: 'DM Mono', monospace; font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); }
+
+    .eyebrow {
+      font-family: 'DM Mono', monospace; font-size: 0.72rem; letter-spacing: 0.2em;
+      text-transform: uppercase; color: rgba(245,240,232,0.38); margin-bottom: 1.25rem;
+      opacity: 0; animation: fadeUp 0.7s ease forwards 0.22s;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif; font-size: clamp(3.8rem, 8.5vw, 7.5rem);
+      font-weight: 900; line-height: 0.93; letter-spacing: -0.03em; max-width: 13ch;
+      opacity: 0; animation: fadeUp 0.7s ease forwards 0.38s;
+    }
+    .hero h1 em { font-style: italic; color: var(--gold); }
+
+    .hero-sub {
+      font-size: 1.1rem; font-weight: 300; color: rgba(245,240,232,0.52);
+      max-width: 46ch; line-height: 1.75; margin-top: 2rem;
+      opacity: 0; animation: fadeUp 0.7s ease forwards 0.52s;
+    }
+
+    /* PRICING HOOK */
+    .pricing-hook { margin-top: 2rem; opacity: 0; animation: fadeUp 0.7s ease forwards 0.66s; }
+    .price-row { display: flex; align-items: baseline; gap: 0.85rem; flex-wrap: wrap; }
+    .price-hero { font-family: 'Playfair Display', serif; font-size: 2.6rem; font-weight: 900; color: var(--gold); line-height: 1; }
+    .price-hero sub { font-size: 1rem; font-weight: 400; color: rgba(245,240,232,0.4); vertical-align: baseline; }
+    .price-was { font-family: 'DM Mono', monospace; font-size: 0.78rem; color: rgba(245,240,232,0.28); text-decoration: line-through; }
+    .save-badge {
+      font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em;
+      background: rgba(74,222,128,0.1); color: var(--green);
+      border: 1px solid rgba(74,222,128,0.22); padding: 0.22rem 0.55rem; border-radius: 2px;
+    }
+    .price-note { margin-top: 0.4rem; font-size: 0.78rem; color: rgba(245,240,232,0.3); font-weight: 300; }
+
+    /* FORM */
+    .waitlist { margin-top: 1.75rem; display: flex; gap: 0; max-width: 460px; opacity: 0; animation: fadeUp 0.7s ease forwards 0.8s; }
+    .waitlist input {
+      flex: 1; background: rgba(245,240,232,0.06); border: 1px solid rgba(201,168,76,0.28);
+      border-right: none; color: var(--paper); font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem; padding: 0.95rem 1.2rem; outline: none; border-radius: 2px 0 0 2px;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .waitlist input::placeholder { color: rgba(245,240,232,0.22); }
+    .waitlist input:focus { border-color: var(--gold); background: rgba(245,240,232,0.09); }
+    .waitlist button {
+      background: var(--gold); color: var(--black); border: none; padding: 0.95rem 1.5rem;
+      font-family: 'DM Sans', sans-serif; font-size: 0.82rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer;
+      border-radius: 0 2px 2px 0; transition: background 0.2s, transform 0.1s; white-space: nowrap;
+    }
+    .waitlist button:hover { background: var(--gold-light); }
+    .waitlist button:active { transform: scale(0.98); }
+
+    .waitlist-note { margin-top: 0.65rem; font-size: 0.75rem; color: rgba(245,240,232,0.26); opacity: 0; animation: fadeUp 0.7s ease forwards 0.95s; }
+    .success-msg { display: none; margin-top: 1rem; font-family: 'DM Mono', monospace; font-size: 0.85rem; color: var(--green); letter-spacing: 0.04em; }
+
+    /* COUNTER */
+    .counter-block { margin-top: 1.5rem; opacity: 0; animation: fadeUp 0.7s ease forwards 1.05s; }
+    .counter-label { font-family: 'DM Mono', monospace; font-size: 0.72rem; color: rgba(245,240,232,0.38); display: flex; align-items: baseline; gap: 0.45rem; flex-wrap: wrap; }
+    .counter-label strong { font-size: 1.05rem; color: var(--gold); font-weight: 500; }
+    .of-total { font-size: 0.62rem; color: rgba(245,240,232,0.2); }
+    .counter-bar-wrap { margin-top: 0.55rem; width: 360px; max-width: 100%; height: 3px; background: rgba(201,168,76,0.1); border-radius: 2px; overflow: hidden; }
+    .counter-bar-fill { height: 100%; background: linear-gradient(90deg, var(--gold), var(--gold-light)); width: 0%; transition: width 1.8s cubic-bezier(0.4,0,0.2,1); }
+
+    /* STATS BAR */
+    .stats-bar { margin-top: 3.5rem; display: flex; gap: 2.75rem; flex-wrap: wrap; opacity: 0; animation: fadeUp 0.7s ease forwards 1.15s; }
+    .stat { display: flex; flex-direction: column; gap: 0.3rem; }
+    .stat-label { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); }
+    .stat-value { font-family: 'DM Mono', monospace; font-size: 1rem; font-weight: 500; }
+    .up { color: var(--green); } .down { color: var(--red); } .warn { color: var(--gold); }
+
+    /* TICKER */
+    .ticker-strip { background: var(--gold); overflow: hidden; padding: 0.6rem 0; white-space: nowrap; }
+    .ticker-inner { display: inline-block; animation: scrollLeft 28s linear infinite; }
+    .ticker-inner span { font-family: 'DM Mono', monospace; font-size: 0.72rem; font-weight: 500; color: var(--black); letter-spacing: 0.06em; margin-right: 3rem; }
+    @keyframes scrollLeft { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+
+    /* SECTIONS */
+    section { padding: 6rem 3rem; max-width: 1200px; margin: 0 auto; }
+    .section-label { font-family: 'DM Mono', monospace; font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.9rem; }
+    .section-title { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; }
+
+    /* MOCK */
+    .preview-wrap { padding: 0 3rem 6rem; max-width: 1200px; margin: 0 auto; }
+    .dashboard-mock { border: 1px solid rgba(201,168,76,0.18); border-radius: 5px; overflow: hidden; background: #111; box-shadow: 0 40px 120px rgba(0,0,0,0.85); }
+    .mock-topbar { background: #0d0d0d; border-bottom: 1px solid rgba(255,255,255,0.05); padding: 0.75rem 1.25rem; display: flex; align-items: center; gap: 1rem; }
+    .mock-dots { display: flex; gap: 0.4rem; }
+    .mock-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .mock-dot:nth-child(1){background:#ff5f57}.mock-dot:nth-child(2){background:#ffbd2e}.mock-dot:nth-child(3){background:#28c840}
+    .mock-url { font-family: 'DM Mono', monospace; font-size: 0.68rem; color: var(--muted); background: rgba(255,255,255,0.04); padding: 0.28rem 1rem; border-radius: 3px; }
+    .mock-body { display: grid; grid-template-columns: 200px 1fr; min-height: 380px; }
+    .mock-sidebar { background: #0d0d0d; border-right: 1px solid rgba(255,255,255,0.04); padding: 1.5rem 0.85rem; display: flex; flex-direction: column; gap: 0.4rem; }
+    .mock-nav-item { padding: 0.6rem 0.75rem; border-radius: 3px; font-size: 0.73rem; color: var(--muted); display: flex; align-items: center; gap: 0.5rem; }
+    .mock-nav-item.active { background: rgba(201,168,76,0.1); color: var(--gold); }
+    .mock-content { padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem; }
+    .mock-section-label { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.5rem; }
+    .mock-card { background: rgba(255,255,255,0.025); border: 1px solid rgba(255,255,255,0.05); border-radius: 3px; padding: 0.85rem 1rem; }
+    .mock-row { display: flex; justify-content: space-between; align-items: center; padding: 0.55rem 0; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 0.76rem; }
+    .mock-row:last-child { border-bottom: none; }
+    .mock-ticker { font-family: 'DM Mono', monospace; color: var(--gold); font-weight: 500; }
+    .mock-who { font-size: 0.67rem; color: rgba(245,240,232,0.38); margin-top: 0.1rem; }
+    .mock-amt { font-family: 'DM Mono', monospace; color: var(--green); font-size: 0.73rem; }
+    .mock-gauges { display: flex; gap: 0.75rem; }
+    .mock-gauge { flex: 1; background: rgba(255,255,255,0.025); border: 1px solid rgba(255,255,255,0.05); border-radius: 3px; padding: 0.8rem; text-align: center; }
+    .mock-gauge-val { font-family: 'DM Mono', monospace; font-size: 1.05rem; font-weight: 500; }
+    .mock-gauge-lbl { font-size: 0.58rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 0.25rem; }
+
+    /* FEATURES */
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1px; margin-top: 4rem; background: rgba(201,168,76,0.08); border: 1px solid rgba(201,168,76,0.08); }
+    .feature { background: var(--black); padding: 2.5rem; transition: background 0.3s; }
+    .feature:hover { background: rgba(201,168,76,0.03); }
+    .feature-icon { font-size: 1.4rem; margin-bottom: 1.25rem; display: block; }
+    .feature h3 { font-family: 'Playfair Display', serif; font-size: 1.25rem; font-weight: 700; margin-bottom: 0.7rem; }
+    .feature p { font-size: 0.88rem; line-height: 1.7; color: rgba(245,240,232,0.5); font-weight: 300; }
+    .feature-tag { display: inline-block; margin-top: 1.25rem; font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); border: 1px solid rgba(201,168,76,0.28); padding: 0.28rem 0.6rem; border-radius: 2px; }
+
+    /* PRICING */
+    .pricing-section { text-align: center; padding: 6rem 3rem; background: rgba(201,168,76,0.015); border-top: 1px solid rgba(201,168,76,0.07); border-bottom: 1px solid rgba(201,168,76,0.07); }
+    .pricing-cards { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin-top: 3.5rem; align-items: flex-start; }
+    .price-card { border: 1px solid rgba(201,168,76,0.25); padding: 2.75rem 3rem; position: relative; text-align: left; min-width: 260px; }
+    .price-card.dimmed { border-color: rgba(255,255,255,0.07); opacity: 0.45; }
+    .price-card-label { position: absolute; top: -0.6rem; left: 50%; transform: translateX(-50%); font-family: 'DM Mono', monospace; font-size: 0.58rem; font-weight: 500; letter-spacing: 0.15em; padding: 0.25rem 0.8rem; white-space: nowrap; }
+    .price-card-label.founders { background: var(--gold); color: var(--black); }
+    .price-card-label.standard { background: #2a2a2a; color: rgba(245,240,232,0.4); }
+    .price-num { font-family: 'Playfair Display', serif; font-size: 3.8rem; font-weight: 900; line-height: 1; color: var(--gold); }
+    .price-card.dimmed .price-num { color: rgba(245,240,232,0.3); }
+    .price-num sup { font-size: 1.4rem; vertical-align: super; }
+    .price-per { font-size: 0.82rem; color: var(--muted); margin-top: 0.4rem; }
+    .price-list { list-style: none; margin-top: 2rem; display: flex; flex-direction: column; gap: 0.7rem; }
+    .price-list li { font-size: 0.88rem; color: rgba(245,240,232,0.65); display: flex; align-items: center; gap: 0.7rem; }
+    .price-list li::before { content: '✦'; color: var(--gold); font-size: 0.55rem; flex-shrink: 0; }
+    .price-card.dimmed .price-list li { color: rgba(245,240,232,0.28); }
+    .price-card.dimmed .price-list li::before { color: rgba(245,240,232,0.18); }
+    .price-spots { margin-top: 1.75rem; font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(245,240,232,0.22); }
+    .pricing-footer { margin-top: 2rem; font-size: 0.8rem; color: var(--muted); }
+
+    /* FOOTER */
+    footer { padding: 2.5rem 3rem; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.05); flex-wrap: wrap; gap: 1rem; }
+    .footer-logo { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 900; color: var(--gold); }
+    footer p { font-size: 0.75rem; color: var(--muted); }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
+    .fade-in { opacity: 0; transform: translateY(22px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .fade-in.visible { opacity: 1; transform: none; }
+
+    /* MOBILE */
+    @media (max-width: 768px) {
+      nav { padding: 1.25rem 1.5rem; }
+      .hero { padding: 7rem 1.5rem 3rem; }
+      section { padding: 4rem 1.5rem; }
+      .preview-wrap { padding: 0 1.5rem 4rem; }
+      .mock-sidebar { display: none; }
+      .mock-body { grid-template-columns: 1fr; }
+      .waitlist { flex-direction: column; max-width: 100%; }
+      .waitlist input { border-right: 1px solid rgba(201,168,76,0.28); border-radius: 2px 2px 0 0; }
+      .waitlist button { border-radius: 0 0 2px 2px; }
+      .stats-bar { gap: 1.5rem; }
+      footer { flex-direction: column; align-items: flex-start; }
+      .pricing-section { padding: 4rem 1.5rem; }
+      .price-card { padding: 2.25rem 1.75rem; min-width: unset; width: 100%; max-width: 340px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="shimmer-line"></div>
+
+<nav>
+  <div style="display:flex;flex-direction:column;gap:0.1rem;">
+    <div class="logo">briefdd</div>
+    <div class="logo-tagline">Brief · Financial · Due Diligence</div>
+  </div>
+  <a href="#waitlist" class="nav-cta">Claim Founders Price</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero" id="waitlist">
+  <div class="hero-glow"></div>
+
+  <div class="founder-badge">
+    <div class="pulse-dot"></div>
+    <span>Founders Pricing — 200 Spots · Brief Financial Due Diligence</span>
+  </div>
+
+  <p class="eyebrow">Brief · Financial · Due Diligence</p>
+
+  <h1>briefdd.<br/><em>your market,</em><br/><em>daily.</em></h1>
+
+  <p class="hero-sub">
+    The DD you don't have time to do yourself. Insider trades, macro signals, earnings snapshots, and breaking news — pulled from dozens of sources and condensed into one clean dashboard. No noise. No rabbit holes. Just your DD — done.
+  </p>
+
+  <div class="pricing-hook">
+    <div class="price-row">
+      <div class="price-hero">$10 <sub>/mo forever</sub></div>
+      <span class="price-was">$15/mo at launch</span>
+      <span class="save-badge">SAVE 33%</span>
+    </div>
+    <p class="price-note">Founders price locked in for life &nbsp;·&nbsp; Rises to $15 on public launch</p>
+  </div>
+
+  <div class="waitlist">
+    <input type="email" id="emailInput" placeholder="your@email.com" />
+    <button onclick="handleSignup()">Claim Founders Price</button>
+  </div>
+  <p class="waitlist-note">No charge until launch &nbsp;·&nbsp; No spam &nbsp;·&nbsp; Cancel anytime</p>
+  <p class="success-msg" id="successMsg">✦ You're in. Founders price locked. We'll be in touch.</p>
+
+  <div class="counter-block">
+    <div class="counter-label">
+      <strong id="counterNum">0</strong>
+      <span>founders have claimed their spot</span>
+      <span class="of-total">/ 200 available</span>
+    </div>
+    <div class="counter-bar-wrap">
+      <div class="counter-bar-fill" id="counterBar"></div>
+    </div>
+  </div>
+
+  <div class="stats-bar">
+    <div class="stat"><span class="stat-label">Fear & Greed</span><span class="stat-value warn">42 — Fear</span></div>
+    <div class="stat"><span class="stat-label">Yield Curve</span><span class="stat-value down">Inverted</span></div>
+    <div class="stat"><span class="stat-label">Insider Buys (7d)</span><span class="stat-value up">↑ 147 trades</span></div>
+    <div class="stat"><span class="stat-label">S&P 500</span><span class="stat-value up">+0.84%</span></div>
+  </div>
+</div>
+
+<!-- TICKER -->
+<div class="ticker-strip">
+  <div class="ticker-inner">
+    <span>AAPL +1.2%</span><span>NVDA +3.4%</span><span>TSLA −0.8%</span><span>META +2.1%</span>
+    <span>MSFT +0.6%</span><span>AMZN +1.7%</span><span>GOOGL +0.3%</span><span>JPM +0.9%</span>
+    <span>VIX 18.4</span><span>10Y 4.31%</span><span>2Y 4.89%</span><span>GOLD +0.5%</span>
+    <span>AAPL +1.2%</span><span>NVDA +3.4%</span><span>TSLA −0.8%</span><span>META +2.1%</span>
+    <span>MSFT +0.6%</span><span>AMZN +1.7%</span><span>GOOGL +0.3%</span><span>JPM +0.9%</span>
+    <span>VIX 18.4</span><span>10Y 4.31%</span><span>2Y 4.89%</span><span>GOLD +0.5%</span>
+  </div>
+</div>
+
+<!-- DASHBOARD PREVIEW -->
+<div class="preview-wrap" style="padding-top:5rem;">
+  <p class="section-label fade-in">The Platform</p>
+  <h2 class="section-title fade-in" style="margin-bottom:2.5rem;">Everything in <em style="font-style:italic;color:var(--gold)">one place.</em></h2>
+
+  <div class="dashboard-mock fade-in">
+    <div class="mock-topbar">
+      <div class="mock-dots"><div class="mock-dot"></div><div class="mock-dot"></div><div class="mock-dot"></div></div>
+      <div class="mock-url">app.briefdd.co — Dashboard</div>
+    </div>
+    <div class="mock-body">
+      <div class="mock-sidebar">
+        <div class="mock-nav-item active">📊 &nbsp;Dashboard</div>
+        <div class="mock-nav-item">👁 &nbsp;Insider Trades</div>
+        <div class="mock-nav-item">🔍 &nbsp;Stock Search</div>
+        <div class="mock-nav-item">📈 &nbsp;Macro Signals</div>
+        <div class="mock-nav-item">📰 &nbsp;News Feed</div>
+      </div>
+      <div class="mock-content">
+        <div>
+          <div class="mock-section-label">Recent Insider Buys</div>
+          <div class="mock-card">
+            <div class="mock-row"><div><div class="mock-ticker">NVDA</div><div class="mock-who">Jensen Huang — CEO</div></div><div class="mock-amt">+$4.2M</div></div>
+            <div class="mock-row"><div><div class="mock-ticker">META</div><div class="mock-who">Mark Zuckerberg — CEO</div></div><div class="mock-amt">+$1.8M</div></div>
+            <div class="mock-row"><div><div class="mock-ticker">JPM</div><div class="mock-who">Jamie Dimon — CEO</div></div><div class="mock-amt">+$2.1M</div></div>
+          </div>
+        </div>
+        <div class="mock-gauges">
+          <div class="mock-gauge"><div class="mock-gauge-val" style="color:var(--red)">42</div><div class="mock-gauge-lbl">Fear & Greed</div></div>
+          <div class="mock-gauge"><div class="mock-gauge-val" style="color:var(--red)">−0.58%</div><div class="mock-gauge-lbl">Yield Spread</div></div>
+          <div class="mock-gauge"><div class="mock-gauge-val" style="color:var(--gold)">18.4</div><div class="mock-gauge-lbl">VIX</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section>
+  <p class="section-label fade-in">What You Get</p>
+  <h2 class="section-title fade-in">Your DD, <em style="font-style:italic;color:var(--gold)">briefed.</em></h2>
+  <div class="features-grid fade-in">
+    <div class="feature">
+      <span class="feature-icon">👁</span>
+      <h3>Insider Trade Feed</h3>
+      <p>See exactly what executives and directors are buying — with relevant news articles automatically linked so you understand the why, not just the what.</p>
+      <span class="feature-tag">SEC Form 4 Data</span>
+    </div>
+    <div class="feature">
+      <span class="feature-icon">🌡</span>
+      <h3>Macro Signal Panel</h3>
+      <p>Fear & Greed index, yield curve shape, VIX, and put/call ratio — clean gauges that tell you the market's mood at a glance. No terminal required.</p>
+      <span class="feature-tag">Daily Updated</span>
+    </div>
+    <div class="feature">
+      <span class="feature-icon">🔍</span>
+      <h3>Stock Search</h3>
+      <p>Any ticker, instantly. Earnings snapshots, recent headlines, 52-week range, and next earnings date — no rabbit holes, no 15 open tabs.</p>
+      <span class="feature-tag">Any Ticker</span>
+    </div>
+    <div class="feature">
+      <span class="feature-icon">📰</span>
+      <h3>Curated News Links</h3>
+      <p>The most relevant financial headlines organized by ticker and theme. Links to what actually matters today — no paywalls, no aggregator noise.</p>
+      <span class="feature-tag">Multiple Sources</span>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<div class="pricing-section fade-in">
+  <p class="section-label">Pricing</p>
+  <h2 class="section-title">Lock in your rate<br/>before launch.</h2>
+
+  <div class="pricing-cards">
+    <div class="price-card">
+      <div class="price-card-label founders">FOUNDERS — WAITLIST ONLY</div>
+      <div class="price-num"><sup>$</sup>10</div>
+      <div class="price-per">per month · locked in forever</div>
+      <ul class="price-list">
+        <li>Everything included at launch</li>
+        <li>Price never increases — ever</li>
+        <li>Priority feature requests</li>
+        <li>Founders badge on profile</li>
+        <li>Direct line to the builder</li>
+      </ul>
+      <div class="price-spots">Limited to 200 founders</div>
+    </div>
+    <div class="price-card dimmed">
+      <div class="price-card-label standard">AT PUBLIC LAUNCH</div>
+      <div class="price-num"><sup>$</sup>15</div>
+      <div class="price-per">per month · cancel anytime</div>
+      <ul class="price-list">
+        <li>Full insider trades dashboard</li>
+        <li>Macro signals & fear index</li>
+        <li>Unlimited stock searches</li>
+        <li>Daily curated news feed</li>
+        <li>Mobile-friendly interface</li>
+      </ul>
+    </div>
+  </div>
+
+  <p class="pricing-footer">Join the waitlist now to lock in $10/mo permanently — before the price rises at launch.</p>
+
+  <p style="margin-top:0.75rem;font-family:'DM Mono',monospace;font-size:0.68rem;color:rgba(245,240,232,0.18);letter-spacing:0.12em;">BRIEFDD · BRIEF · FINANCIAL · DUE DILIGENCE</p>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div style="display:flex;flex-direction:column;gap:0.2rem;">
+    <div class="footer-logo">briefdd</div>
+    <div style="font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);">Brief · Financial · Due Diligence</div>
+  </div>
+  <p>© 2025 Briefdd. Brief financial due diligence, daily.</p>
+  <p style="font-family:'DM Mono',monospace;font-size:0.68rem;">Not financial advice.</p>
+</footer>
+
+<script>
+  // Scroll fade-ins
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) setTimeout(() => entry.target.classList.add('visible'), i * 80);
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // ── COUNTER CONFIG ──
+  // Update this number manually as real signups come in
+  const FOUNDERS_COUNT = 47;
+  const FOUNDERS_MAX = 200;
+
+  function animateCounter(target, duration) {
+    const el = document.getElementById('counterNum');
+    const bar = document.getElementById('counterBar');
+    const startTime = performance.now();
+    function tick(now) {
+      const progress = Math.min((now - startTime) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = Math.round(target * eased);
+      if (progress < 1) requestAnimationFrame(tick);
+      else el.textContent = target;
+    }
+    requestAnimationFrame(tick);
+    setTimeout(() => { bar.style.width = ((target / FOUNDERS_MAX) * 100) + '%'; }, 200);
+  }
+
+  // Trigger counter when visible
+  let counterStarted = false;
+  const counterObs = new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting && !counterStarted) {
+      counterStarted = true;
+      animateCounter(FOUNDERS_COUNT, 1600);
+    }
+  }, { threshold: 0.3 });
+  counterObs.observe(document.querySelector('.counter-block'));
+
+  // Signup handler
+  function handleSignup() {
+    const input = document.getElementById('emailInput');
+    const email = input.value.trim();
+    if (!email || !email.includes('@') || !email.includes('.')) {
+      input.style.borderColor = 'var(--red)';
+      setTimeout(() => { input.style.borderColor = ''; }, 1800);
+      return;
+    }
+
+    // ── Swap this out for your Tally embed / Mailchimp API / backend ──
+    console.log('New founder:', email);
+
+    // Optimistic counter bump
+    const newCount = FOUNDERS_COUNT + 1;
+    document.getElementById('counterNum').textContent = newCount;
+    document.getElementById('counterBar').style.width = ((newCount / FOUNDERS_MAX) * 100) + '%';
+
+    document.querySelector('.waitlist').style.display = 'none';
+    document.querySelector('.waitlist-note').style.display = 'none';
+    document.getElementById('successMsg').style.display = 'block';
+  }
+
+  document.getElementById('emailInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') handleSignup();
+  });
+</script>
+</body>
+</html>
